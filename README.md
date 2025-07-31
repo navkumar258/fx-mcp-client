@@ -20,8 +20,6 @@ A Spring Boot application that serves as an MCP (Model Context Protocol) client 
 
 ## �� Architecture
 
-```markdown:Github/fx-mcp-client/README.md
-<code_block_to_apply_changes_from>
 ```
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Web Client    │    │   Mobile App    │    │   AI Chat Bot   │
