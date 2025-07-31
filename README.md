@@ -24,10 +24,10 @@ A Spring Boot application that serves as an MCP (Model Context Protocol) client 
 ┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
 │   Web Client    │    │   Mobile App    │    │   AI Chat Bot   │
 └─────────┬───────┘    └─────────┬───────┘    └─────────┬───────┘
-           │                      │                      │
-           └──────────────────────┼──────────────────────┘
-                                  │
-                     ┌─────────────▼─────────────┐
+          │                      │                      │
+          └──────────────────────┼──────────────────────┘
+                                 │
+                     ┌───────────▼─────────────--┐
                      │     FX MCP Client         │
                      │                           │
                      │  ┌─────────────────────┐  │
@@ -44,8 +44,8 @@ A Spring Boot application that serves as an MCP (Model Context Protocol) client 
                      └────────────┼──────────────┘
                                   │
                      ┌─────────────▼─────────────┐
-                     │   MCP Server (SSE)       │
-                     │   (FX Subscription Svc)  │
+                     │   MCP Server (SSE)        │
+                     │   (FX Subscription Svc)   │
                      └───────────────────────────┘
 ```
 
