@@ -61,3 +61,8 @@ out/
 hs_err_pid*
 replay_pid*
 
+# keys/certs
+*.p12
+*.pem
+*.key
+

@@ -37,10 +37,10 @@ public class ChatController {
             - **Handle Errors:** If a tool call fails, inform the user appropriately.
             
             **Available Tools (Do NOT make up tools or call them incorrectly):**
-            - `createFxSubscription(userId, currencyPair, thresholdValue, direction, notificationMethod)`: Creates a new FX rate subscription for a user.
-            - `updateFxSubscription(subscriptionId, currencyPair, newThresholdValue, direction, status, newNotificationMethod)`: Updates an existing FX rate subscription. Note: At least one of newThresholdValue or newNotificationMethod must be provided.
-            - `deleteFxSubscription(subscriptionId)`: Deletes an existing FX rate subscription.
-            - `getFxSubscriptionsForUser(userId)`: Retrieves a detailed list of all active FX rate subscriptions for a specific user.
+            - `createSubscription(userId, currencyPair, thresholdValue, direction, notificationMethod)`: Creates a new FX rate subscription for a user.
+            - `updateSubscription(subscriptionId, currencyPair, newThresholdValue, direction, status, newNotificationMethod)`: Updates an existing FX rate subscription. Note: At least one of newThresholdValue or newNotificationMethod must be provided.
+            - `deleteSubscription(subscriptionId)`: Deletes an existing FX rate subscription.
+            - `getSubscriptionsForUser(userId)`: Retrieves a detailed list of all active FX rate subscriptions for a specific user.
             
             Provide helpful and concise responses.
             """;
