@@ -23,10 +23,15 @@ ext {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	// MCP client
 	implementation 'org.springframework.ai:spring-ai-starter-mcp-client'
 	implementation 'org.springframework.ai:spring-ai-starter-model-ollama'
 //	implementation 'org.springframework.ai:spring-ai-starter-model-anthropic'
 //	implementation 'org.springframework.ai:spring-ai-starter-model-openai'
+	// PDF analysis
+	implementation 'org.springframework.ai:spring-ai-pdf-document-reader'
+	implementation 'org.springframework.ai:spring-ai-vector-store'
+	implementation 'org.springframework.ai:spring-ai-advisors-vector-store'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }

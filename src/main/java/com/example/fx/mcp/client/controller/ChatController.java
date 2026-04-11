@@ -1,16 +1,18 @@
 package com.example.fx.mcp.client.controller;
 
 import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import reactor.core.publisher.Flux;
 
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api/v1/ai")
 public class ChatController {
   private final ChatClient chatClient;
 
@@ -18,8 +20,8 @@ public class ChatController {
     this.chatClient = chatClient;
   }
 
-  @GetMapping("/api/v1/ai/fx")
-  public String fxChat(@RequestParam(value = "query") String userQuery) {
+  @GetMapping("/fx")
+  public Flux<String> fxChat(@RequestParam String query) {
     String systemMessage = """
             You are an intelligent FX Rate Subscription Manager AI. Your primary role is to assist users with managing their foreign exchange rate subscriptions.
             You can create, update, delete, and retrieve subscriptions.
@@ -46,13 +48,19 @@ public class ChatController {
             """;
 
     PromptTemplate promptTemplate = new PromptTemplate(systemMessage + "\nUser query: {query}");
-    Prompt prompt = new Prompt(promptTemplate.createMessage(Map.of("query", userQuery)));
-    ChatResponse response = chatClient
-            .prompt(prompt)
-            .call()
-            .chatResponse();
+    Prompt prompt = new Prompt(promptTemplate.createMessage(Map.of("query", query)));
 
-    assert response != null;
-    return response.toString();
+    return chatClient
+            .prompt(prompt)
+            .stream()
+            .content();
+  }
+
+  @GetMapping("/pdf")
+  public Flux<String> chat(@RequestParam String query) {
+    return chatClient.prompt()
+            .user(query)
+            .stream()
+            .content();
   }
 }

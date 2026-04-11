@@ -65,4 +65,5 @@ replay_pid*
 *.p12
 *.pem
 *.key
+*.pdf
 
