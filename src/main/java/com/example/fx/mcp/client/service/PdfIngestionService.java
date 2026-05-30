@@ -11,23 +11,23 @@ import java.util.List;
 
 @Service
 public class PdfIngestionService {
-    private final VectorStore vectorStore;
+	private final VectorStore vectorStore;
 
-    public PdfIngestionService(VectorStore vectorStore) {
-        this.vectorStore = vectorStore;
-    }
+	public PdfIngestionService(VectorStore vectorStore) {
+		this.vectorStore = vectorStore;
+	}
 
-    public void ingest(Resource pdfResource) {
-        // 1. Read PDF page by page
-        PagePdfDocumentReader reader = new PagePdfDocumentReader(pdfResource);
+	public void ingest(Resource pdfResource) {
+		// 1. Read PDF page by page
+		PagePdfDocumentReader reader = new PagePdfDocumentReader(pdfResource);
 
-        // 2. Split text into manageable chunks
-        TokenTextSplitter splitter = TokenTextSplitter.builder()
-                .withChunkSize(1024)
-                .build();
-        List<Document> chunks = splitter.apply(reader.get());
+		// 2. Split text into manageable chunks
+		TokenTextSplitter splitter = TokenTextSplitter.builder()
+				.withChunkSize(1024)
+				.build();
+		List<Document> chunks = splitter.apply(reader.get());
 
-        // 3. Add to local vector database
-        vectorStore.accept(chunks);
-    }
+		// 3. Add to local vector database
+		vectorStore.accept(chunks);
+	}
 }

@@ -14,53 +14,53 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/v1/ai")
 public class ChatController {
-  private final ChatClient chatClient;
+	private final ChatClient chatClient;
 
-  public ChatController(ChatClient chatClient) {
-    this.chatClient = chatClient;
-  }
+	public ChatController(ChatClient chatClient) {
+		this.chatClient = chatClient;
+	}
 
-  @GetMapping("/fx")
-  public Flux<String> fxChat(@RequestParam String query) {
-    String systemMessage = """
-            You are an intelligent FX Rate Subscription Manager AI. Your primary role is to assist users with managing their foreign exchange rate subscriptions.
-            You can create, update, delete, and retrieve subscriptions.
-            
-            **IMPORTANT:** You have access to a set of specialized tools to perform these actions.
-            **ALWAYS** use the provided tools to fulfill user requests related to FX subscriptions.
-            **DO NOT** try to answer questions or fulfill requests by yourself if a tool can be used.
-            
-            **Tool Usage Guidelines:**
-            - **Identify Intent:** Understand what the user wants to do (create, update, delete, get subscriptions).
-            - **Extract Parameters:** Carefully identify all necessary information from the user's request (e.g., user ID, currency pair, threshold, subscription ID, notification method).
-            - **Ask for Missing Info:** If you cannot find all required parameters for a tool call, politely ask the user for the missing details.
-            - **Execute Tool:** Once all parameters are gathered, call the appropriate tool.
-            - **Summarize Results:** After a tool call, provide a clear and concise summary of the outcome to the user.
-            - **Handle Errors:** If a tool call fails, inform the user appropriately.
-            
-            **Available Tools (Do NOT make up tools or call them incorrectly):**
-            - `createSubscription(userId, currencyPair, thresholdValue, direction, notificationMethod)`: Creates a new FX rate subscription for a user.
-            - `updateSubscription(subscriptionId, currencyPair, newThresholdValue, direction, status, newNotificationMethod)`: Updates an existing FX rate subscription. Note: At least one of newThresholdValue or newNotificationMethod must be provided.
-            - `deleteSubscription(subscriptionId)`: Deletes an existing FX rate subscription.
-            - `getSubscriptionsForUser(userId)`: Retrieves a detailed list of all active FX rate subscriptions for a specific user.
-            
-            Provide helpful and concise responses.
-            """;
+	@GetMapping("/fx")
+	public Flux<String> fxChat(@RequestParam String query) {
+		String systemMessage = """
+				You are an intelligent FX Rate Subscription Manager AI. Your primary role is to assist users with managing their foreign exchange rate subscriptions.
+				You can create, update, delete, and retrieve subscriptions.
+				
+				**IMPORTANT:** You have access to a set of specialized tools to perform these actions.
+				**ALWAYS** use the provided tools to fulfill user requests related to FX subscriptions.
+				**DO NOT** try to answer questions or fulfill requests by yourself if a tool can be used.
+				
+				**Tool Usage Guidelines:**
+				- **Identify Intent:** Understand what the user wants to do (create, update, delete, get subscriptions).
+				- **Extract Parameters:** Carefully identify all necessary information from the user's request (e.g., user ID, currency pair, threshold, subscription ID, notification method).
+				- **Ask for Missing Info:** If you cannot find all required parameters for a tool call, politely ask the user for the missing details.
+				- **Execute Tool:** Once all parameters are gathered, call the appropriate tool.
+				- **Summarize Results:** After a tool call, provide a clear and concise summary of the outcome to the user.
+				- **Handle Errors:** If a tool call fails, inform the user appropriately.
+				
+				**Available Tools (Do NOT make up tools or call them incorrectly):**
+				- `createSubscription(userId, currencyPair, thresholdValue, direction, notificationMethod)`: Creates a new FX rate subscription for a user.
+				- `updateSubscription(subscriptionId, currencyPair, newThresholdValue, direction, status, newNotificationMethod)`: Updates an existing FX rate subscription. Note: At least one of newThresholdValue or newNotificationMethod must be provided.
+				- `deleteSubscription(subscriptionId)`: Deletes an existing FX rate subscription.
+				- `getSubscriptionsForUser(userId)`: Retrieves a detailed list of all active FX rate subscriptions for a specific user.
+				
+				Provide helpful and concise responses.
+				""";
 
-    PromptTemplate promptTemplate = new PromptTemplate(systemMessage + "\nUser query: {query}");
-    Prompt prompt = new Prompt(promptTemplate.createMessage(Map.of("query", query)));
+		PromptTemplate promptTemplate = new PromptTemplate(systemMessage + "\nUser query: {query}");
+		Prompt prompt = new Prompt(promptTemplate.createMessage(Map.of("query", query)));
 
-    return chatClient
-            .prompt(prompt)
-            .stream()
-            .content();
-  }
+		return chatClient
+				.prompt(prompt)
+				.stream()
+				.content();
+	}
 
-  @GetMapping("/pdf")
-  public Flux<String> chat(@RequestParam String query) {
-    return chatClient.prompt()
-            .user(query)
-            .stream()
-            .content();
-  }
+	@GetMapping("/pdf")
+	public Flux<String> chat(@RequestParam String query) {
+		return chatClient.prompt()
+				.user(query)
+				.stream()
+				.content();
+	}
 }
