@@ -5,6 +5,7 @@ import org.springframework.ai.chat.client.advisor.SimpleLoggerAdvisor;
 import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.ai.embedding.EmbeddingModel;
+import org.springframework.ai.tool.ToolCallbackProvider;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -30,7 +31,7 @@ public class SpringAiConfig {
 	}
 
 	@Bean
-	public ChatClient chatClient(ChatModel chatModel, VectorStore vectorStore) {
+	public ChatClient chatClient(ChatModel chatModel, ToolCallbackProvider tools, VectorStore vectorStore) {
 		return ChatClient.builder(chatModel)
 				.defaultAdvisors(
 						QuestionAnswerAdvisor.builder(vectorStore)
@@ -39,6 +40,7 @@ public class SpringAiConfig {
 										.build())
 								.build(),
 						new SimpleLoggerAdvisor())
+				.defaultTools(tools)
 				.build();
 	}
 }
